@@ -91,7 +91,7 @@ let reduced_planck_constant = 1.054_571_800_13e-34
 let planck_length = 1.616_229_38e-35
 let planck_mass = 2.176_470_51e-8
 let planck_time = 5.391_161_3e-44
-let planck_charge = 1.875_545_956_41e-18
+(* let planck_charge = 1.875_545_956_41e-18 *)
 let planck_temperature = 1.416_808_33e32
 
 type prefix =
