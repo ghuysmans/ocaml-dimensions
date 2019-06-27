@@ -110,6 +110,8 @@ module Unit : sig
     | Metre : ('l one, 'm zero, 't zero, 'tp zero) t
     | Nauticalmile : ('l one, 'm zero, 't zero, 'tp zero) t
     | Feet : ('l one, 'm zero, 't zero, 'tp zero) t
+    | Astronomical : ('l one, 'm zero, 't zero, 'tp zero) t
+    | Parsec : ('l one, 'm zero, 't zero, 'tp zero) t
     | SquareMetre : ('l two, 'm zero, 't zero, 'tp zero) t
     | CubicMetre : ('l three, 'm zero, 't zero, 'tp zero) t
     | Kilogram : ('l zero, 'm one, 't zero, 'tp zero) t

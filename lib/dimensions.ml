@@ -129,6 +129,8 @@ module Unit = struct
     | Metre : ('l one, 'm zero, 't zero, 'tp zero) t
     | Nauticalmile : ('l one, 'm zero, 't zero, 'tp zero) t
     | Feet : ('l one, 'm zero, 't zero, 'tp zero) t
+    | Astronomical : ('l one, 'm zero, 't zero, 'tp zero) t
+    | Parsec : ('l one, 'm zero, 't zero, 'tp zero) t
     | SquareMetre : ('l two, 'm zero, 't zero, 'tp zero) t
     | CubicMetre : ('l three, 'm zero, 't zero, 'tp zero) t
     | Kilogram : ('l zero, 'm one, 't zero, 'tp zero) t
@@ -147,6 +149,7 @@ module Unit = struct
   let to_string : type l m ti tp. (l, m, ti, tp) t -> string
     = function
     | Metre -> "m" | Nauticalmile -> "NM" | Feet -> "ft"
+    | Astronomical -> "au" | Parsec -> "pc"
     | SquareMetre -> "m2"
     | CubicMetre -> "m3"
     | Kilogram -> "kg" | Ton -> "t"
@@ -162,6 +165,8 @@ let convert_affine = fun a b -> (fun v -> v *. a +. b), (fun v -> (v -. b) /. a)
 
 let nauticalmile_to_metre, metre_to_nauticalmile = convert_linear 1852.
 let feet_to_metre, metre_to_feet = convert_linear 0.3048
+let astro_to_metre, metre_to_astro = convert_linear 149_597_870_700.
+let parsec_to_metre, metre_to_parsec = convert_linear 30_856_775_814_913_700.
 let ton_to_kilogram, kilogram_to_ton = convert_linear 1000.
 let minute_to_second, second_to_minute = convert_linear 60.
 let hour_to_second, second_to_hour = convert_linear 3600.
@@ -177,6 +182,8 @@ let make : type l m ti tp. ?prefix:Prefix.t -> (l, m, ti, tp) Unit.t ->
     | Metre -> v
     | Nauticalmile -> v |> nauticalmile_to_metre
     | Feet -> v |> feet_to_metre
+    | Astronomical -> v |> astro_to_metre
+    | Parsec -> v |> parsec_to_metre
     | SquareMetre -> v
     | CubicMetre -> v
     | Kilogram -> v
@@ -205,6 +212,8 @@ let get_value : type l m ti tp. ?prefix:Prefix.t -> (l, m, ti, tp) Unit.t ->
     | Metre -> v
     | Nauticalmile -> v |> metre_to_nauticalmile
     | Feet -> v |> metre_to_feet
+    | Astronomical -> v |> metre_to_astro
+    | Parsec -> v |> metre_to_parsec
     | SquareMetre -> v
     | CubicMetre -> v
     | Kilogram -> v
@@ -290,7 +299,6 @@ end
 
 type ('l, 'm, 't, 'tp) dl_unary =
   ('l, 'm, 't, 'tp) dimensionless -> ('l, 'm, 't, 'tp) dimensionless
-
 let cos = Pervasives.cos
 let sin = Pervasives.sin
 let tan = Pervasives.tan
