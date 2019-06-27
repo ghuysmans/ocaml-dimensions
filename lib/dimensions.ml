@@ -94,63 +94,67 @@ let planck_time = 5.391_161_3e-44
 (* let planck_charge = 1.875_545_956_41e-18 *)
 let planck_temperature = 1.416_808_33e32
 
-type prefix =
-  | Yotta | Zetta | Exa | Peta | Tera | Giga | Mega | Kilo | Hecto | Deca
-  | Yocto | Zepto | Atto | Femto | Pico | Nano | Micro | Milli | Centi | Deci
+module Prefix = struct
+  type t =
+    | Yotta | Zetta | Exa | Peta | Tera | Giga | Mega | Kilo | Hecto | Deca
+    | Yocto | Zepto | Atto | Femto | Pico | Nano | Micro | Milli | Centi | Deci
 
-let prefix_modifier = function
-  | Yotta -> 1e24 | Yocto -> 1e-24
-  | Zetta -> 1e21 | Zepto -> 1e-21
-  | Exa -> 1e18 | Atto -> 1e-18
-  | Peta -> 1e15 | Femto -> 1e-15
-  | Tera -> 1e12 | Pico -> 1e-12
-  | Giga -> 1e9 | Nano -> 1e-9
-  | Mega -> 1e6 | Micro -> 1e-6
-  | Kilo -> 1e3 | Milli -> 1e-3
-  | Hecto -> 1e2 | Centi -> 1e-2
-  | Deca -> 1e1 | Deci -> 1e-1
+  let modifier = function
+    | Yotta -> 1e24 | Yocto -> 1e-24
+    | Zetta -> 1e21 | Zepto -> 1e-21
+    | Exa -> 1e18 | Atto -> 1e-18
+    | Peta -> 1e15 | Femto -> 1e-15
+    | Tera -> 1e12 | Pico -> 1e-12
+    | Giga -> 1e9 | Nano -> 1e-9
+    | Mega -> 1e6 | Micro -> 1e-6
+    | Kilo -> 1e3 | Milli -> 1e-3
+    | Hecto -> 1e2 | Centi -> 1e-2
+    | Deca -> 1e1 | Deci -> 1e-1
 
-let sprint_prefix = function
-  | Yotta -> "Y" | Yocto -> "y"
-  | Zetta -> "Z" | Zepto -> "z"
-  | Exa -> "E" | Atto -> "a"
-  | Peta -> "P" | Femto -> "f"
-  | Tera -> "T" | Pico -> "p"
-  | Giga -> "G" | Nano -> "n"
-  | Mega -> "M" | Micro -> "µ"
-  | Kilo -> "k" | Milli -> "m"
-  | Hecto -> "h" | Centi -> "c"
-  | Deca -> "da" | Deci -> "d"
+  let to_string = function
+    | Yotta -> "Y" | Yocto -> "y"
+    | Zetta -> "Z" | Zepto -> "z"
+    | Exa -> "E" | Atto -> "a"
+    | Peta -> "P" | Femto -> "f"
+    | Tera -> "T" | Pico -> "p"
+    | Giga -> "G" | Nano -> "n"
+    | Mega -> "M" | Micro -> "µ"
+    | Kilo -> "k" | Milli -> "m"
+    | Hecto -> "h" | Centi -> "c"
+    | Deca -> "da" | Deci -> "d"
+end
 
-type (_, _, _, _) units =
-  | Metre : ('l one, 'm zero, 't zero, 'tp zero) units
-  | Nauticalmile : ('l one, 'm zero, 't zero, 'tp zero) units
-  | Feet : ('l one, 'm zero, 't zero, 'tp zero) units
-  | SquareMetre : ('l two, 'm zero, 't zero, 'tp zero) units
-  | CubicMetre : ('l three, 'm zero, 't zero, 'tp zero) units
-  | Kilogram : ('l zero, 'm one, 't zero, 'tp zero) units
-  | Ton : ('l zero, 'm one, 't zero, 'tp zero) units
-  | Second : ('l zero, 'm zero, 't one, 'tp zero) units
-  | Minute : ('l zero, 'm zero, 't one, 'tp zero) units
-  | Hour : ('l zero, 'm zero, 't one, 'tp zero) units
-  | Day : ('l zero, 'm zero, 't one, 'tp zero) units
-  | Kelvin : ('l zero, 'm zero, 't zero, 'tp one) units
-  | Celsius : ('l zero, 'm zero, 't zero, 'tp one) units
-  | Metre_per_Second : ('l one, 'm zero, 't m_one, 'tp zero) units
-  | Knot : ('l one, 'm zero, 't m_one, 'tp zero) units
-  | Feet_per_Minute : ('l one, 'm zero, 't m_one, 'tp zero) units
-  | Pascal : ('l m_one, 'm one, 't m_two, 'tp zero) units
+module Unit = struct
+  type (_, _, _, _) t =
+    | Metre : ('l one, 'm zero, 't zero, 'tp zero) t
+    | Nauticalmile : ('l one, 'm zero, 't zero, 'tp zero) t
+    | Feet : ('l one, 'm zero, 't zero, 'tp zero) t
+    | SquareMetre : ('l two, 'm zero, 't zero, 'tp zero) t
+    | CubicMetre : ('l three, 'm zero, 't zero, 'tp zero) t
+    | Kilogram : ('l zero, 'm one, 't zero, 'tp zero) t
+    | Ton : ('l zero, 'm one, 't zero, 'tp zero) t
+    | Second : ('l zero, 'm zero, 't one, 'tp zero) t
+    | Minute : ('l zero, 'm zero, 't one, 'tp zero) t
+    | Hour : ('l zero, 'm zero, 't one, 'tp zero) t
+    | Day : ('l zero, 'm zero, 't one, 'tp zero) t
+    | Kelvin : ('l zero, 'm zero, 't zero, 'tp one) t
+    | Celsius : ('l zero, 'm zero, 't zero, 'tp one) t
+    | Metre_per_Second : ('l one, 'm zero, 't m_one, 'tp zero) t
+    | Knot : ('l one, 'm zero, 't m_one, 'tp zero) t
+    | Feet_per_Minute : ('l one, 'm zero, 't m_one, 'tp zero) t
+    | Pascal : ('l m_one, 'm one, 't m_two, 'tp zero) t
 
-let sprint_unit : type l m ti tp. (l, m, ti, tp) units -> string
-  = function
-  | Metre -> "m" | Nauticalmile -> "NM" | Feet -> "ft"
-  | SquareMetre -> "m2"
-  | CubicMetre -> "m3"
-  | Kilogram -> "kg" | Ton -> "t"
-  | Second -> "s" | Minute -> "min" | Hour -> "h" | Day -> "d"
-  | Kelvin -> "K" | Celsius -> "°C"
-  | Metre_per_Second -> "m/s" | Knot -> "kt" | Feet_per_Minute -> "ft/min"
-  | Pascal -> "Pa"
+  let to_string : type l m ti tp. (l, m, ti, tp) t -> string
+    = function
+    | Metre -> "m" | Nauticalmile -> "NM" | Feet -> "ft"
+    | SquareMetre -> "m2"
+    | CubicMetre -> "m3"
+    | Kilogram -> "kg" | Ton -> "t"
+    | Second -> "s" | Minute -> "min" | Hour -> "h" | Day -> "d"
+    | Kelvin -> "K" | Celsius -> "°C"
+    | Metre_per_Second -> "m/s" | Knot -> "kt" | Feet_per_Minute -> "ft/min"
+    | Pascal -> "Pa"
+end
 
 let convert_linear = fun a -> (fun v -> v *. a), (fun v -> v /. a)
 let convert_offset = fun b -> (fun v -> v +. b), (fun v -> v -. b)
@@ -164,10 +168,12 @@ let hour_to_second, second_to_hour = convert_linear 3600.
 let day_to_second, second_to_day = convert_linear 86400.
 let celsius_to_kelvin, kelvin_to_celsius = convert_offset 273.15
 
-let make : type l m ti tp. ?prefix:prefix -> (l, m, ti, tp) units -> float ->
-                (l, m, ti, tp) t =
+let make : type l m ti tp. ?prefix:Prefix.t -> (l, m, ti, tp) Unit.t ->
+                float -> (l, m, ti, tp) t =
   fun ?prefix u v ->
-  let si = match u with
+  let si =
+    let open Unit in
+    match u with
     | Metre -> v
     | Nauticalmile -> v |> nauticalmile_to_metre
     | Feet -> v |> feet_to_metre
@@ -184,15 +190,18 @@ let make : type l m ti tp. ?prefix:prefix -> (l, m, ti, tp) units -> float ->
     | Metre_per_Second -> v
     | Knot -> v |> nauticalmile_to_metre |> second_to_hour
     | Feet_per_Minute -> v |> feet_to_metre |> second_to_minute
-    | Pascal -> v in
+    | Pascal -> v
+  in
   match prefix with
   | None -> si
-  | Some p -> si *. prefix_modifier p
+  | Some p -> si *. Prefix.modifier p
 
-let get_value : type l m ti tp. ?prefix:prefix -> (l, m, ti, tp) units ->
+let get_value : type l m ti tp. ?prefix:Prefix.t -> (l, m, ti, tp) Unit.t ->
                      (l, m, ti, tp) t -> float
   = fun ?prefix u v ->
-  let v = match u with
+  let v =
+    let open Unit in
+    match u with
     | Metre -> v
     | Nauticalmile -> v |> metre_to_nauticalmile
     | Feet -> v |> metre_to_feet
@@ -209,20 +218,33 @@ let get_value : type l m ti tp. ?prefix:prefix -> (l, m, ti, tp) units ->
     | Metre_per_Second -> v
     | Knot -> v |> metre_to_nauticalmile |> hour_to_second
     | Feet_per_Minute -> v |> metre_to_feet |> minute_to_second
-    | Pascal -> v in
+    | Pascal -> v
+  in
   match prefix with
   | None -> v
-  | Some p -> v /. prefix_modifier p
+  | Some p -> v /. Prefix.modifier p
 
 let convert = fun u1 u2 v -> v |> make u1 |> get_value u2
 
+let to_string ?prefix u x =
+  let p =
+    match prefix with
+    | Some p -> Prefix.to_string p
+    | None -> ""
+  in
+  Printf.sprintf "%f %s%s" (get_value ?prefix u x) p (Unit.to_string u)
+
+type ('o, 'l, 'm, 't, 'tp) bin = ('l, 'm, 't, 'tp) t -> ('l, 'm, 't, 'tp) t -> 'o
 let compare : float -> float -> int = Pervasives.compare
+
+type ('l, 'm, 't, 'tp) rel = (bool, 'l, 'm, 't, 'tp) bin
 let equal : float -> float -> bool = Pervasives.(=)
 let le : float -> float -> bool = Pervasives.(<=)
 let lt : float -> float -> bool = Pervasives.(<)
 let ge : float -> float -> bool = Pervasives.(>=)
 let gt : float -> float -> bool = Pervasives.(>)
 
+type ('l, 'm, 't, 'tp) lin = (('l, 'm, 't, 'tp) t, 'l, 'm, 't, 'tp) bin
 let add = ( +. )
 let sub = ( -. )
 let mult = ( *. )
@@ -237,9 +259,10 @@ type (_, _) double =
   | DoubleMOne : ('a m_one, 'b m_two) double
   | DoubleMTwo : ('a m_two, 'b m_four) double
 
-let square = fun dl dm dt dtp x -> x *. x
-let sqrt = fun dl dm dt dtp x -> sqrt x
+let square = fun _dl _dm _dt _dtp x -> x *. x
+let sqrt = fun _dl _dm _dt _dtp x -> sqrt x
 
+type ('l, 'm, 't, 'tp) unary = ('l, 'm, 't, 'tp) t -> ('l, 'm, 't, 'tp) t
 let opp = fun v -> -. v
 let inv = fun v -> 1. /. v
 
@@ -265,6 +288,9 @@ module Operators = struct
   let ( >> ) = convert
 end
 
+type ('l, 'm, 't, 'tp) dl_unary =
+  ('l, 'm, 't, 'tp) dimensionless -> ('l, 'm, 't, 'tp) dimensionless
+
 let cos = Pervasives.cos
 let sin = Pervasives.sin
 let tan = Pervasives.tan
@@ -276,9 +302,8 @@ let cosh = Pervasives.cosh
 let sinh = Pervasives.sinh
 let tanh = Pervasives.tanh
 let exp = Pervasives.exp
-let ln = Pervasives.log
 let log = Pervasives.log
-let ln2 = ln 2.
-let ln10 = ln 10.
-let log2 = fun x -> ln x /. ln2
-let log10 = fun x -> ln x /. ln10
+let ln2 = log 2.
+let ln10 = log 10.
+let log2 = fun x -> log x /. ln2
+let log10 = fun x -> log x /. ln10
