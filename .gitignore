@@ -1,5 +1,6 @@
-.depend
-*.[ao]
-*.cm*
+.merlin
+*.install
+_build/
 *~
 *.old
+*.swp

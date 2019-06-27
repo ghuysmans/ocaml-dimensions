@@ -1,0 +1,3 @@
+(executables
+ (libraries dimensions)
+ (names light smoke))

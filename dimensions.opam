@@ -1,0 +1,12 @@
+opam-version: "1.2"
+name: "dimensions"
+version: "0.1.0"
+maintainer: "Guillaume Huysmans <ghuysmans99@gmail.com>"
+authors: "Cyril Allignol"
+homepage: "https://github.com/cyril-allignol/ocaml-dimensions/"
+bug-reports: "https://github.com/ghuysmans/ocaml-dimensions/issues"
+dev-repo: "https://github.com/ghuysmans/ocaml-dimensions/"
+build: [["dune" "build" "-p" name "-j" jobs]]
+depends: [
+  "dune" {build}
+]
