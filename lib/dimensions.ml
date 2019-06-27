@@ -141,6 +141,7 @@ module Unit = struct
     | Day : ('l zero, 'm zero, 't one, 'tp zero) t
     | Kelvin : ('l zero, 'm zero, 't zero, 'tp one) t
     | Celsius : ('l zero, 'm zero, 't zero, 'tp one) t
+    | Fahrenheit : ('l zero, 'm zero, 't zero, 'tp one) t
     | Metre_per_Second : ('l one, 'm zero, 't m_one, 'tp zero) t
     | Knot : ('l one, 'm zero, 't m_one, 'tp zero) t
     | Feet_per_Minute : ('l one, 'm zero, 't m_one, 'tp zero) t
@@ -154,7 +155,7 @@ module Unit = struct
     | CubicMetre -> "m3"
     | Kilogram -> "kg" | Ton -> "t"
     | Second -> "s" | Minute -> "min" | Hour -> "h" | Day -> "d"
-    | Kelvin -> "K" | Celsius -> "°C"
+    | Kelvin -> "K" | Celsius -> "°C" | Fahrenheit -> "°F"
     | Metre_per_Second -> "m/s" | Knot -> "kt" | Feet_per_Minute -> "ft/min"
     | Pascal -> "Pa"
 end
@@ -172,6 +173,9 @@ let minute_to_second, second_to_minute = convert_linear 60.
 let hour_to_second, second_to_hour = convert_linear 3600.
 let day_to_second, second_to_day = convert_linear 86400.
 let celsius_to_kelvin, kelvin_to_celsius = convert_offset 273.15
+let fahrenheit_to_kelvin, kelvin_to_fahrenheit =
+  let k = 5. /. 9. in
+  convert_affine k (273.15 -. 32. *. k)
 
 let make : type l m ti tp. ?prefix:Prefix.t -> (l, m, ti, tp) Unit.t ->
                 float -> (l, m, ti, tp) t =
@@ -194,6 +198,7 @@ let make : type l m ti tp. ?prefix:Prefix.t -> (l, m, ti, tp) Unit.t ->
     | Day -> v |> day_to_second
     | Kelvin -> v
     | Celsius -> v |> celsius_to_kelvin
+    | Fahrenheit -> v |> fahrenheit_to_kelvin
     | Metre_per_Second -> v
     | Knot -> v |> nauticalmile_to_metre |> second_to_hour
     | Feet_per_Minute -> v |> feet_to_metre |> second_to_minute
@@ -224,6 +229,7 @@ let get_value : type l m ti tp. ?prefix:Prefix.t -> (l, m, ti, tp) Unit.t ->
     | Day -> v |> second_to_day
     | Kelvin -> v
     | Celsius -> v |> kelvin_to_celsius
+    | Fahrenheit -> v |> kelvin_to_fahrenheit
     | Metre_per_Second -> v
     | Knot -> v |> metre_to_nauticalmile |> hour_to_second
     | Feet_per_Minute -> v |> metre_to_feet |> minute_to_second

@@ -122,6 +122,7 @@ module Unit : sig
     | Day : ('l zero, 'm zero, 't one, 'tp zero) t
     | Kelvin : ('l zero, 'm zero, 't zero, 'tp one) t
     | Celsius : ('l zero, 'm zero, 't zero, 'tp one) t
+    | Fahrenheit : ('l zero, 'm zero, 't zero, 'tp one) t
     | Metre_per_Second : ('l one, 'm zero, 't m_one, 'tp zero) t
     | Knot : ('l one, 'm zero, 't m_one, 'tp zero) t
     | Feet_per_Minute : ('l one, 'm zero, 't m_one, 'tp zero) t
