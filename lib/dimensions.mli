@@ -116,6 +116,7 @@ module Unit : sig
     | CubicMetre : ('l three, 'm zero, 't zero, 'tp zero) t
     | Kilogram : ('l zero, 'm one, 't zero, 'tp zero) t
     | Ton : ('l zero, 'm one, 't zero, 'tp zero) t
+    | Pound : ('l zero, 'm one, 't zero, 'tp zero) t
     | Second : ('l zero, 'm zero, 't one, 'tp zero) t
     | Minute : ('l zero, 'm zero, 't one, 'tp zero) t
     | Hour : ('l zero, 'm zero, 't one, 'tp zero) t

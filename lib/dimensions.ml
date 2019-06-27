@@ -135,6 +135,7 @@ module Unit = struct
     | CubicMetre : ('l three, 'm zero, 't zero, 'tp zero) t
     | Kilogram : ('l zero, 'm one, 't zero, 'tp zero) t
     | Ton : ('l zero, 'm one, 't zero, 'tp zero) t
+    | Pound : ('l zero, 'm one, 't zero, 'tp zero) t
     | Second : ('l zero, 'm zero, 't one, 'tp zero) t
     | Minute : ('l zero, 'm zero, 't one, 'tp zero) t
     | Hour : ('l zero, 'm zero, 't one, 'tp zero) t
@@ -153,7 +154,7 @@ module Unit = struct
     | Astronomical -> "au" | Parsec -> "pc"
     | SquareMetre -> "m2"
     | CubicMetre -> "m3"
-    | Kilogram -> "kg" | Ton -> "t"
+    | Kilogram -> "kg" | Ton -> "t" | Pound -> "lb"
     | Second -> "s" | Minute -> "min" | Hour -> "h" | Day -> "d"
     | Kelvin -> "K" | Celsius -> "°C" | Fahrenheit -> "°F"
     | Metre_per_Second -> "m/s" | Knot -> "kt" | Feet_per_Minute -> "ft/min"
@@ -169,6 +170,7 @@ let feet_to_metre, metre_to_feet = convert_linear 0.3048
 let astro_to_metre, metre_to_astro = convert_linear 149_597_870_700.
 let parsec_to_metre, metre_to_parsec = convert_linear 30_856_775_814_913_700.
 let ton_to_kilogram, kilogram_to_ton = convert_linear 1000.
+let pound_to_kilogram, kilogram_to_pound = convert_linear 0.45359237
 let minute_to_second, second_to_minute = convert_linear 60.
 let hour_to_second, second_to_hour = convert_linear 3600.
 let day_to_second, second_to_day = convert_linear 86400.
@@ -192,6 +194,7 @@ let make : type l m ti tp. ?prefix:Prefix.t -> (l, m, ti, tp) Unit.t ->
     | CubicMetre -> v
     | Kilogram -> v
     | Ton -> v |> ton_to_kilogram
+    | Pound -> v |> pound_to_kilogram
     | Second -> v
     | Minute -> v |> minute_to_second
     | Hour -> v |> hour_to_second
@@ -223,6 +226,7 @@ let get_value : type l m ti tp. ?prefix:Prefix.t -> (l, m, ti, tp) Unit.t ->
     | CubicMetre -> v
     | Kilogram -> v
     | Ton -> v |> kilogram_to_ton
+    | Pound -> v |> kilogram_to_pound
     | Second -> v
     | Minute -> v |> second_to_minute
     | Hour -> v |> second_to_hour
