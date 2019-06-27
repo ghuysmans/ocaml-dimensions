@@ -14,7 +14,7 @@
 
 type ('length, 'mass, 'time, 'temperature) t = float
 
-type 'n s = S of 'n
+type +'n s
 
 type 'i zero = 'i * 'i
 type 'i one = 'i * 'i s
