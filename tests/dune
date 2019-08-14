@@ -1,3 +1,3 @@
 (executables
  (libraries dimensions)
- (names light units))
+ (names units))

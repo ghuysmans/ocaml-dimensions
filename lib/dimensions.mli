@@ -106,31 +106,40 @@ module Prefix : sig
 end
 
 module Unit : sig
+  type (_, _, _, _, _) u =
+    | Inverse :
+      ([`S], 'lm * 'll, 'mm * 'ml, 'tm * 'tl, 'tpm * 'tpl) u ->
+      ([`C], 'll * 'ln, 'ml * 'mn, 'tl * 'tn, 'tpl * 'tpn) u
+    | Metre : ([`S], 'l one, 'm zero, 't zero, 'tp zero) u
+    | Nauticalmile : ([`S], 'l one, 'm zero, 't zero, 'tp zero) u
+    | Feet : ([`S], 'l one, 'm zero, 't zero, 'tp zero) u
+    | Astronomical : ([`S], 'l one, 'm zero, 't zero, 'tp zero) u
+    | Parsec : ([`S], 'l one, 'm zero, 't zero, 'tp zero) u
+    | Kilogram : ([`S], 'l zero, 'm one, 't zero, 'tp zero) u
+    | Ton : ([`S], 'l zero, 'm one, 't zero, 'tp zero) u
+    | Pound : ([`S], 'l zero, 'm one, 't zero, 'tp zero) u
+    | Second : ([`S], 'l zero, 'm zero, 't one, 'tp zero) u
+    | Minute : ([`S], 'l zero, 'm zero, 't one, 'tp zero) u
+    | Hour : ([`S], 'l zero, 'm zero, 't one, 'tp zero) u
+    | Day : ([`S], 'l zero, 'm zero, 't one, 'tp zero) u
+    | Kelvin : ([`S], 'l zero, 'm zero, 't zero, 'tp one) u
+    | Celsius : ([`S], 'l zero, 'm zero, 't zero, 'tp one) u
+    | Fahrenheit : ([`S], 'l zero, 'm zero, 't zero, 'tp one) u
+    | Knot : ([`S], 'l one, 'm zero, 't m_one, 'tp zero) u
+    | Pascal : ([`S], 'l m_one, 'm one, 't m_two, 'tp zero) u
   type (_, _, _, _) t =
-    | Metre : ('l one, 'm zero, 't zero, 'tp zero) t
-    | Nauticalmile : ('l one, 'm zero, 't zero, 'tp zero) t
-    | Feet : ('l one, 'm zero, 't zero, 'tp zero) t
-    | Astronomical : ('l one, 'm zero, 't zero, 'tp zero) t
-    | Parsec : ('l one, 'm zero, 't zero, 'tp zero) t
-    | SquareMetre : ('l two, 'm zero, 't zero, 'tp zero) t
-    | CubicMetre : ('l three, 'm zero, 't zero, 'tp zero) t
-    | Kilogram : ('l zero, 'm one, 't zero, 'tp zero) t
-    | Ton : ('l zero, 'm one, 't zero, 'tp zero) t
-    | Pound : ('l zero, 'm one, 't zero, 'tp zero) t
-    | Second : ('l zero, 'm zero, 't one, 'tp zero) t
-    | Minute : ('l zero, 'm zero, 't one, 'tp zero) t
-    | Hour : ('l zero, 'm zero, 't one, 'tp zero) t
-    | Day : ('l zero, 'm zero, 't one, 'tp zero) t
-    | Kelvin : ('l zero, 'm zero, 't zero, 'tp one) t
-    | Celsius : ('l zero, 'm zero, 't zero, 'tp one) t
-    | Fahrenheit : ('l zero, 'm zero, 't zero, 'tp one) t
-    | Metre_per_Second : ('l one, 'm zero, 't m_one, 'tp zero) t
-    | Knot : ('l one, 'm zero, 't m_one, 'tp zero) t
-    | Feet_per_Minute : ('l one, 'm zero, 't m_one, 'tp zero) t
-    | Pascal : ('l m_one, 'm one, 't m_two, 'tp zero) t
+    | [] : (_ zero, _ zero, _ zero, _ zero) t
+    | (::) :
+      (_, 'lm * 'ln, 'mm * 'mn, 'tm * 'tn, 'tpm * 'tpn) u *
+      ('ll * 'lm, 'ml * 'mm, 'tl * 'tm, 'tpl * 'tpm) t ->
+      ('ll * 'ln, 'ml * 'mn, 'tl * 'tn, 'tpl * 'tpn) t
+  val (~-) :
+    ([`S], 'lm * 'll, 'mm * 'ml, 'tm * 'tl, 'tpm * 'tpl) u ->
+    ([`C], 'll * 'ln, 'ml * 'mn, 'tl * 'tn, 'tpl * 'tpn) u
   val to_string : (_, _, _, _) t -> string
 end
 
+(*
 val make : ?prefix:Prefix.t -> ('l, 'm, 't, 'tp) Unit.t ->
            float -> ('l, 'm, 't, 'tp) t
 val get_value : ?prefix:Prefix.t -> ('l, 'm, 't, 'tp) Unit.t ->
@@ -141,6 +150,7 @@ val convert : ('l, 'm, 't, 'tp) Unit.t -> ('l, 'm, 't, 'tp) Unit.t ->
 
 val to_string : ?prefix:Prefix.t -> ('l, 'm, 't, 'tp) Unit.t ->
                 ('l, 'm, 't, 'tp) t -> string
+*)
 
 type ('o, 'l, 'm, 't, 'tp) bin = ('l, 'm, 't, 'tp) t -> ('l, 'm, 't, 'tp) t -> 'o
 val compare : (int, _, _, _, _) bin
@@ -214,8 +224,10 @@ module Operators : sig
   val ( < ) : (_, _, _, _) rel
   val ( >= ) : (_, _, _, _) rel
   val ( > ) : (_, _, _, _) rel
+  (*
   val ( >> ) : ('l, 'm, 't, 'tp) Unit.t -> ('l, 'm, 't, 'tp) Unit.t ->
                float -> float
+  *)
 end
 
 (** Operations on dimension-less values *)
